@@ -1,0 +1,34 @@
+---
+- hosts: datanodes
+  gather_facts: no
+  vars:
+    password: 'hi1234'
+    uname: 'hi'
+  user: hadoop
+  tasks:
+    - name: Create User "{{ uname }}"
+      become: yes
+      user:
+        name: "{{ uname }}"
+        password: "{{ password | password_hash('sha512') }}"
+        group: sudo 
+
+    - name: mkdir .ssh
+      become: yes
+      file:
+        path: "/home/{{ uname }}/.ssh"
+        state: directory
+
+    - name: touch authorized_keys
+      become: yes
+      file:
+        path: "/home/{{ uname }}/.ssh/authorized_keys"
+        state: touch
+    
+    - name: put pubk
+      become: yes
+      lineinfile:
+        path: "/home/{{ uname }}/.ssh/authorized_keys"
+        line: "{{ pubkey }}"
+
+

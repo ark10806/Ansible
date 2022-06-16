@@ -1,0 +1,11 @@
+---
+- hosts: pi0
+  remote_user: hadoop
+  tasks:
+    - name: Test Connection
+      ping:
+
+    - name: Create User
+      become: yes
+      user:
+        name: hi
