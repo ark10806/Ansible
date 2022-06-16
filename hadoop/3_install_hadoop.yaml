@@ -1,5 +1,5 @@
 ---
-- hosts: datanodes
+- hosts: all
   gather_facts: no
   vars:
     uname: hi

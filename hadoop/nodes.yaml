@@ -1,0 +1,15 @@
+hadoop:
+  children:
+    namenodes:
+      hosts:
+        nn0:
+          ansible_host: home
+          ansible_port: 8084
+    datanodes:
+      hosts:
+        dn0:
+          ansible_host: home
+          ansible_port: 8082
+        dn1:
+          ansible_host: home
+          ansible_port: 8085
