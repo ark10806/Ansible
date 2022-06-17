@@ -1,1 +1,0 @@
-ansible-playbook new_user2.yaml -i nodes.ini -K --extra-vars='pubkey="cat /home/hadoop/.ssh/id_rsa.pub"'
