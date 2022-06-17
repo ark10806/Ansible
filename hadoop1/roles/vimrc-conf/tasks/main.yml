@@ -1,0 +1,14 @@
+- name: Conf vimrc
+  blockinfile:
+    dest: "~/.vimrc"
+    create: yes
+    marker: '" {mark} ANSIBLE MANAGED BLOCK"'
+    block: "syntax on
+      \nset nu
+      \nset mouse=a
+      \nset tabstop=2
+      \nset ai
+      \nset si
+      \nset shiftwidth=2
+      \nset showmatch
+      \nautocmd FileType yaml setlocal ai ts=2 sw=2 et"

@@ -1,0 +1,9 @@
+- vars:
+  namenode_addr: namenode01
+  secondary_addr: pi1
+  
+  replication: 1
+  tmp_dir: $HADOOP_HOME/tmp/
+
+  list_t: ['pi0', 'pi1']
+  namenode_pubkey: ""

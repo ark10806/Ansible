@@ -1,0 +1,4 @@
+- name: put pubkey in datanodes
+  lineinfile:
+    path: "/home/{{ uname }}/.ssh/authorized_keys"
+    line: "{{ hostvars['nn0']['namenode_pubkey']['stdout'] }}"
