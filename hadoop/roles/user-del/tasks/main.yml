@@ -1,0 +1,7 @@
+- name: Userdel "hi"
+  become: yes
+  user:
+    name: hi
+    remove: yes
+    state: absent
+    force: yes
