@@ -2,27 +2,22 @@
 - hosts: all
   user: hadoop
   gather_facts: no
-
   vars:
     password: 'hi1234'
     uname: 'hi'
-
   roles:
     - user-add
-    # - user-del
 
 
 - hosts: all
   user: hi
   gather_facts: no
-  
   vars_files:
     - vars/hadoop_conf.yml
   vars:
     uname: 'hi'
     hdconf: "/home/{{ uname }}/opt/hadoop/conf"
   roles:
-    # - list-test
     - vimrc-conf
     - install-jdk8
     - install-hadoop
@@ -56,28 +51,10 @@
 
 # ---
 # - hosts: all
-#   user: hi
-#   gather_facts: no
-  
-#   vars_files:
-#     - vars/hadoop_conf.yml
-#   vars:
-#     uname: 'hi'
-#     hdconf: "/home/{{ uname }}/opt/hadoop/conf"
-#   roles:
-#     - hadoop-connect
-
-
-
-
-# ---
-# - hosts: all
 #   user: hadoop
 #   gather_facts: no
-
 #   vars:
 #     password: 'hi1234'
 #     uname: 'hi'
-
 #   roles:
 #     - user-del
