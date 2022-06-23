@@ -1,0 +1,2 @@
+javac -cp .:$HADOOP_HOME/hadoop-core*.jar -d ./ MyClass.java
+jar -cvf ./MyClass.jar ./

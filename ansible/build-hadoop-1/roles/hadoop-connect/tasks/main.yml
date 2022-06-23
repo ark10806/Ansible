@@ -1,0 +1,82 @@
+- name: get java path
+  shell: 'readlink -f /usr/bin/java | sed -e "s:/bin/java::" -e "s:/jre::"'
+  register: java_path
+
+- debug:
+    msg: "{{ java_path.stdout }}"
+
+- name: Conf hadoop-env.sh
+  blockinfile:
+    dest: "{{ hdconf }}/hadoop-env.sh"
+    block: |
+      export JAVA_HOME="{{ java_path.stdout }}"
+      export HADOOP_HOME_WARN_SUPPRESS="TRUE"
+      export HADOOP_PID_DIR=/home/{{ uname }}/opt/hadoop/pids
+
+- name: Conf hdfs-site.xml
+  blockinfile:
+    dest: "{{ hdconf }}/hdfs-site.xml"
+    insertafter: "<configuration>"
+    marker: '<!-- {mark} ANSIBLE MANAGED BLOCK -->'
+    block: "\t<property>
+      \n\t\t<name>dfs.replaction</name>
+      \n\t\t<value>{{ replication }}</value>
+      \n\t</property>\n
+      \n\t<property>
+      \n\t\t<name>dfs.http.address</name>
+      \n\t\t<value>{{ namenode_addr }}:50070</value>
+      \n\t</property>\n
+      \n\t<property>
+      \n\t\t<name>dfs.secondary.http.address</name>
+      \n\t\t<value>{{ secondary_addr }}:50090</value>
+      \n\t</property>\n
+      \n\t<property>
+      \n\t\t<name>dfs.permissions</name>
+      \n\t\t<value>false</value>
+      \n\t</property>"
+
+- name: Conf core-site.xml
+  blockinfile:
+    dest: "{{ hdconf }}/core-site.xml"
+    insertafter: "<configuration>"
+    marker: '<!-- {mark} ANSIBLE MANAGED BLOCK -->'
+    block: "\t<property>
+      \n\t\t<name>fs.default.name</name>
+      \n\t\t<value>hdfs://{{ namenode_addr }}:9000</value>
+      \n\t</property>\n
+      \n\t<property>
+      \n\t\t<name>hadoop.tmp.dir</name>
+      \n\t\t<value>{{ tmp_dir }}</value>
+      \n\t</property>"
+
+- name: Conf mapred-site.xml
+  blockinfile:
+    dest: "{{ hdconf }}/mapred-site.xml"
+    insertafter: "<configuration>"
+    marker: '<!-- {mark} ANSIBLE MANAGED BLOCK -->'
+    block: "\t<property>
+      \n\t\t<name>mapred.job.tracker</name>
+      \n\t\t<value>{{ namenode_addr }}:9001</value>
+      \n\t</property>"
+
+- name: Make masters
+  file:
+    state: absent
+    path: "{{ hdconf }}/masters"
+
+- name: Conf masters
+  file:
+    state: touch
+    path: "{{ hdconf }}/masters"
+
+- name: Make slaves
+  file:
+    state: absent
+    path: "{{ hdconf }}/slaves"
+
+- name: Conf slaves
+  blockinfile:
+    marker: ''
+    dest: "{{ hdconf }}/slaves"
+    create: yes
+    block: "{{ list_t | join('\n') }}"

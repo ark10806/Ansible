@@ -1,0 +1,17 @@
+- name: Check id_rsa
+  stat:
+    path: "/home/{{ uname }}/.ssh/id_rsa.pub"
+  register: isPubkey
+
+- debug:
+    msg: "{{ isPubkey.stat.exists }}"
+
+- name: make pubkey
+  command: ssh-keygen -q -t rsa -f /home/{{ uname }}/.ssh/id_rsa -C "" -N ""
+  # args:
+  #   creates: /home/{{ uname }}/.ssh/id_rsa
+  when: not isPubkey.stat.exists
+
+- name: get pubkey in namenodes
+  shell: 'cat /home/{{ uname }}/.ssh/id_rsa.pub'
+  register: namenode_pubkey

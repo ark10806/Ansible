@@ -1,0 +1,1 @@
+hadoop jar URLCat.jar URLCat hdfs://namenode01:9000/user/hadoop/test/hi.txt

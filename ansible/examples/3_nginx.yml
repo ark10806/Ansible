@@ -1,0 +1,7 @@
+---
+- name: Install nginx on Linux
+  hosts: pi1
+  remote_user: pi256
+  tasks:
+    - name: Install epel-release
+      yu
