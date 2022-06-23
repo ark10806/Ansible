@@ -1,7 +1,0 @@
----
-- hosts: pi0
-  remote_user: hadoop
-  gather_facts: no
-  tasks:
-    - name: make dir
-      file: path=/home/hadoop/hi owner=hadoop state=directory
