@@ -1,0 +1,11 @@
+load data local inpath '/home/hadoop/Desktop/datasets/Airlines/1997.csv'
+overwrite into table airline
+partition (delayyear='1997');
+
+
+# job이 두 번  수행된다. 그 이유는?
+select year, month, AVG(Arrdelay) as avg_arrDelay, AVG(depDelay) as avg_depDelay
+from airline
+where delayYear=1997 And arrDelay > 0
+group by year, month
+sort by month;
