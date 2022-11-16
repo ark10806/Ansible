@@ -22,6 +22,7 @@ public class WordCount {
 		job.setJarByClass(WordCount.class);
 		job.setMapperClass(WordCountMapper.class);
 		job.setReducerClass(WordCountReducer.class);
+		job.getConfiguration().set("mapreduce.job.queuename", args[2]);
 
 		job.setInputFormatClass(TextInputFormat.class);
 		job.setOutputFormatClass(TextOutputFormat.class);
