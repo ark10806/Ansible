@@ -12,8 +12,8 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 public class WordCount {
 	public static void main(String[] args) throws Exception {
 		Configuration conf = new Configuration();
-		if (args.length != 2) {
-			System.err.println("Usage: WordCount <input> <output>");
+		if (args.length != 3) {
+			System.err.println("Usage: WordCount <input> <output> <queue-name>");
 			System.exit(2);
 		}
 
